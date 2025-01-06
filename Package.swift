@@ -20,6 +20,8 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
     .package(url: "https://github.com/mochidev/XCTAsync.git", .upToNextMajor(from: "1.0.1")),
     .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0"),
+    .package(url: "https://github.com/SVGKit/SVGKit", from: "3.0.0"),
+    .package(url: "https://github.com/auth0/JWTDecode.swift", from: "3.2.0")
   ],
   targets: [
     .executableTarget(
@@ -33,7 +35,11 @@ let package = Package(
       ]),
     .target(
       name: "PorscheConnect",
-      dependencies: ["SwiftSoup"]),
+      dependencies: [
+        .product(name: "SwiftSoup", package: "SwiftSoup"),
+        .product(name: "SVGKitSwift", package: "SVGKit"),
+        .product(name: "JWTDecode", package: "JWTDecode.swift"),
+      ]),
     .testTarget(
       name: "PorscheConnectTests",
       dependencies: [

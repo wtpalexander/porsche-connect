@@ -1,9 +1,14 @@
 import Foundation
+import UIKit
+
+public typealias CaptchaSolution = (state: String, solution: String)
 
 // MARK: - Enums
 
 public enum PorscheConnectError: Error {
   case AuthFailure
+    case WrongCredentials
+    case CaptchaRequired(image: UIImage, state: String)
   case NoResult
   case UnlockChallengeFailure
   case lockedFor60Minutes
@@ -14,8 +19,8 @@ public enum PorscheConnectError: Error {
 
 extension OAuthApplication {
   public static let api = OAuthApplication(
-    clientId: "UYsK00My6bCqJdbQhTQ0PbWmcSdIAMig",
-    redirectURL: URL(string: "https://my.porsche.com/")!
+    clientId: "XhygisuebbrqQ80byOuU5VncxLIm8E6H",
+    redirectURL: URL(string: "my-porsche-app://auth0/callback")!
   )
 }
 
@@ -38,6 +43,7 @@ public class PorscheConnect {
   let environment: Environment
   let username: String
   var authStorage: AuthStoring
+    public var captchaSolution: CaptchaSolution?
 
   let networkClient = NetworkClient()
   let networkRoutes: NetworkRoutes
@@ -82,31 +88,26 @@ public class PorscheConnect {
   }
 
 // MARK: – Internal functions
-
-  internal func performAuthFor(application: OAuthApplication) async throws -> [String: String] {
-    _ = try await authIfRequired(application: application)
-
-    guard let auth = await authStorage.authentication(for: application.clientId), let apiKey = auth.apiKey else {
-      throw PorscheConnectError.AuthFailure
+    
+    internal func performAuthFor(application: OAuthApplication) async throws -> [String: String] {
+        _ = try await authIfRequired(application: application)
+        
+        guard let auth = await authStorage.authentication(for: application.clientId), let apiKey = auth.apiKey else {
+            throw PorscheConnectError.AuthFailure
+        }
+        
+        let headers = [
+            "Authorization": "Bearer \(auth.accessToken)",
+        ]
+        
+        return HEADERS.merging(headers) { $1 }
     }
-
-    return [
-      "Authorization": "Bearer \(auth.accessToken)",
-      "apikey": apiKey,
-      "x-vrs-url-country": environment.countryCode,
-      "x-vrs-url-language": "\(environment.languageCode)_\(environment.countryCode.uppercased())",
-    ]
-  }
-
+    
   // MARK: - Private functions
 
   private func authIfRequired(application: OAuthApplication) async throws {
     if await !authorized(application: application) {
-      do {
         _ = try await auth(application: application)
-      } catch {
-        throw PorscheConnectError.AuthFailure
-      }
     }
   }
 }

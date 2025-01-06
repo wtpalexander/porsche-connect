@@ -2,6 +2,11 @@ import Foundation
 
 // MARK: - Structs
 
+private let defaultHeaders = [
+    "User-Agent": "pyporscheconnectapi/0.2.0",
+    "X-Client-ID": "41843fb4-691d-4970-85c7-2673e8ecef40"
+]
+
 struct NetworkClient {
   private let session: URLSession
   private let delegate: PorscheConnectURLSessionDataDelegate
@@ -42,11 +47,12 @@ struct NetworkClient {
     url: URL,
     params: [String: String]? = nil,
     body: E?,
-    headers: [String: String]? = nil,
+    headers: [String: String]? = defaultHeaders,
     contentType: HttpRequestContentType = .json,
     parseResponseBody: Bool = true,
     jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase,
-    shouldFollowRedirects followRedirects: Bool = true
+    shouldFollowRedirects followRedirects: Bool = true,
+    failOnErrorStatusCode: Bool = true
   ) async throws -> (data: D?, response: HTTPURLResponse) {
     let request = buildModifyingRequest(
       url: url.addParams(params: params),
@@ -57,8 +63,12 @@ struct NetworkClient {
       shouldFollowRedirects: followRedirects
     )
     return try await performRequest(
-      responseType, request: request, contentType: contentType,
-      parseResponseBody: parseResponseBody, jsonKeyDecodingStrategy: jsonKeyDecodingStrategy)
+      responseType,
+      request: request,
+      contentType: contentType,
+      parseResponseBody: parseResponseBody,
+      jsonKeyDecodingStrategy: jsonKeyDecodingStrategy,
+      failOnErrorStatusCode: failOnErrorStatusCode)
   }
   
   // MARK: - Private
@@ -88,7 +98,8 @@ struct NetworkClient {
     request: URLRequest,
     contentType: HttpRequestContentType = .json,
     parseResponseBody: Bool = true,
-    jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase
+    jsonKeyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase,
+    failOnErrorStatusCode: Bool = true
   ) async throws -> (D?, HTTPURLResponse) {
     return try await withCheckedThrowingContinuation { continuation in
       let task = session.dataTask(with: request) { (data, response, error) in
@@ -101,7 +112,7 @@ struct NetworkClient {
           return
         }
         
-        if isErrorStatusCode(response) {
+        if failOnErrorStatusCode, isErrorStatusCode(response) {
           continuation.resume(with: .failure(HttpStatusCode(rawValue: response.statusCode)!))
           return
         }

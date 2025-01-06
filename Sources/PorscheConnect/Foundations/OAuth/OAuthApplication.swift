@@ -1,4 +1,5 @@
 import Foundation
+import JWTDecode
 
 /// The Porsche Connect service is composed of various independent OAuth applications, each providing
 /// access to specific services and endpoints once authenticated.
@@ -22,25 +23,8 @@ public struct OAuthToken: Codable {
   public let scope: String
 
   public var apiKey: String? {
-    // Standard OAuth JWT decoding. See
-    // https://www.oauth.com/oauth2-servers/access-tokens/self-encoded-access-tokens/
-    // for more details. Porsche Connect requires an apikey field as part of all authenticated
-    // requests. The apikey can be extracted from the jwt's "aud" field.
-    let idTokenComponents = idToken.components(separatedBy: ".")
-    let paddedBase64EncodedString = idTokenComponents[1].padding(
-      toLength: ((idTokenComponents[1].count + 3) / 4) * 4, withPad: "=", startingAt: 0)
-
-    if let decodedString = String(
-      data: Data(base64Encoded: paddedBase64EncodedString) ?? kBlankData, encoding: .utf8),
-      let data = decodedString.data(using: .utf8),
-      let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-        as? [String: Any],
-      let apiKey = dict["aud"] as? String
-    {
-      return apiKey
-    } else {
-      return nil
-    }
+      guard let jwt = try? decode(jwt: idToken) else { return nil }
+      return jwt["aud"].string
   }
 
   public var expired: Bool {

@@ -6,30 +6,30 @@ struct NetworkRoutes {
   let environment: Environment
 
   // MARK: - Calculated properties
-
-  var loginAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/authorize?response_type=code&client_id=\(OAuthApplication.api.clientId)&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid")!
-  }
-  
-  var resumeAuth0URL: URL { // this is only used in test environment
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/testing-second-authorize?response_type=code&client_id=\(OAuthApplication.api.clientId)&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid")!
-  }
-  
-  var accessTokenAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/oauth/token")!
-  }
-  
-  var usernamePasswordLoginAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/usernamepassword/login")!
-  }
+    
+    var loginAuth0URL: URL {
+        URL(string: host("https://identity.porsche.com") + "/authorize")!
+    }
+    
+    func resumeAuth0URL(resumePath: String) -> URL { // this is only used in test environment
+        URL(string: host("https://identity.porsche.com") + resumePath)!
+    }
+    
+    var accessTokenAuth0URL: URL {
+        URL(string: host("https://identity.porsche.com") + "/oauth/token")!
+    }
+    
+    func usernameLoginAuth0URL(state: String) -> URL {
+        URL(string: host("https://identity.porsche.com") + "/u/login/identifier?state=\(state)")!
+    }
+    
+    func passwordLoginAuth0URL(state: String) -> URL {
+        URL(string: host("https://identity.porsche.com") + "/u/login/password?state=\(state)")!
+    }
+    
+    func resumeLoginAuth0URL(resumePath: String) -> URL {
+        URL(string: host("https://identity.porsche.com") + resumePath)!
+    }
   
   var callbackAuth0URL: URL {
     return URL(
