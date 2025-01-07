@@ -38,8 +38,7 @@ struct NetworkRoutes {
   }
 
   var vehiclesURL: URL {
-    return URL(
-      string: "\(host("https://api.porsche.com"))/core/api/v3/\(environment.regionCode)/vehicles")!
+    URL(string: host("https://api.ppa.porsche.com/app") + "/connect/v1/vehicles")!
   }
 
   // MARK: - Functions
