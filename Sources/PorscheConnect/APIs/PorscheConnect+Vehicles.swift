@@ -22,6 +22,7 @@ public struct Vehicle: Codable {
     // MARK: Properties
     
     public let vin: String
+    public let modelName: String
     public let modelType: ModelType
     public let exteriorColorName: String
     public let vehicleColor: VehicleColors
@@ -34,11 +35,13 @@ public struct Vehicle: Codable {
     
     public init(
         vin: String,
+        modelName: String,
         modelType: Vehicle.ModelType,
         exteriorColorName: String,
         vehicleColor: Vehicle.VehicleColors
     ) {
         self.vin = vin
+        self.modelName = modelName
         self.modelType = modelType
         self.exteriorColorName = exteriorColorName
         self.vehicleColor = vehicleColor
@@ -48,7 +51,7 @@ public struct Vehicle: Codable {
 extension Vehicle {
     
     enum CodingKeys: String, CodingKey {
-        case vin, modelType, exteriorColorName
+        case vin, modelName, modelType, exteriorColorName
         case vehicleColor = "color"
     }
     

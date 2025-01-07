@@ -86,6 +86,7 @@ struct NetworkClient {
     request.allHTTPHeaderFields = headers
     request.addValue(contentType.mimeDescription, forHTTPHeaderField: "Content-Type")
     request.httpBody = bodyData
+      request.timeoutInterval = 60
     
     if let followRedirects = followRedirects {
       request.setValue(followRedirects.description, forHTTPHeaderField: kRedirectHeader)

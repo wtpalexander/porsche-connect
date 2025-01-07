@@ -42,11 +42,20 @@ struct NetworkRoutes {
   }
 
   // MARK: - Functions
-
-  func vehicleSummaryURL(vin: String) -> URL {
-    return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/vehicle-summary/\(vin)")!
-  }
+    
+    func vehicle(vin: String, measurements: [VehicleMeasurement] = [], commands: [VehicleCommand] = []) -> URL {
+        var components = URLComponents(url: vehiclesURL, resolvingAgainstBaseURL: false)!
+        components.path += "/\(vin)"
+        components.queryItems = []
+        for measurement in measurements {
+            components.queryItems?.append(URLQueryItem(name: "mf", value: measurement.rawValue))
+        }
+        for command in commands {
+            components.queryItems?.append(URLQueryItem(name: "cf", value: command.rawValue))
+        }
+        components.queryItems?.append(URLQueryItem(name: "wakeUpJob", value: UUID().uuidString))
+        return components.url!
+    }
 
   func vehiclePicturesURL(vin: String) -> URL {
     return URL(
