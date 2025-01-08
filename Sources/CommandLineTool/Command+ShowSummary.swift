@@ -42,7 +42,7 @@ extension Porsche {
 
     private func printSummary(_ summary: Summary) {
       let output = NSLocalizedString(
-        "Model Description: \(summary.modelDescription); Nickname: \(summary.nickName ?? "None")",
+        "Model Description: \(summary.vehicle.modelName))",
         comment: kBlankString)
       print(output)
     }

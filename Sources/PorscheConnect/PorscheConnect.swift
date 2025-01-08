@@ -1,5 +1,9 @@
 import Foundation
+#if os(macOS)
+import AppKit
+#else
 import UIKit
+#endif
 
 public typealias CaptchaSolution = (state: String, solution: String)
 
@@ -8,7 +12,11 @@ public typealias CaptchaSolution = (state: String, solution: String)
 public enum PorscheConnectError: Error {
   case AuthFailure
     case WrongCredentials
+    #if os(macOS)
+    case CaptchaRequired(image: NSImage, state: String)
+    #else
     case CaptchaRequired(image: UIImage, state: String)
+    #endif
   case NoResult
   case UnlockChallengeFailure
   case lockedFor60Minutes

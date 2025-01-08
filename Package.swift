@@ -37,7 +37,7 @@ let package = Package(
       name: "PorscheConnect",
       dependencies: [
         .product(name: "SwiftSoup", package: "SwiftSoup"),
-        .product(name: "SVGKitSwift", package: "SVGKit"),
+        .product(name: "SVGKitSwift", package: "SVGKit", condition: .when(platforms: [.iOS])),
         .product(name: "JWTDecode", package: "JWTDecode.swift"),
       ]),
     .testTarget(

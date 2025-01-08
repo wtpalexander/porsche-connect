@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(SVGKit)
 import SVGKit
+#endif
 import SwiftSoup
 
 let AUTHORIZATION_SERVER = "identity.porsche.com"
@@ -203,10 +205,15 @@ extension PorscheConnect {
             }
             let captchaData = Data(base64Encoded: encodedCaptchaData)
             
+#if canImport(SVGKit)
             guard let captchaImage = SVGKImage(data: captchaData)?.uiImage else {
                 throw PorscheConnectError.AuthFailure
             }
             throw PorscheConnectError.CaptchaRequired(image: captchaImage, state: state)
+#else
+            // TODO: Support captcha images macOS
+            throw PorscheConnectError.AuthFailure
+#endif
             
         case HttpStatusCode.Unauthorized.rawValue:
             throw PorscheConnectError.WrongCredentials
