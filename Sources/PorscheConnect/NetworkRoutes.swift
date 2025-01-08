@@ -30,18 +30,12 @@ struct NetworkRoutes {
     func resumeLoginAuth0URL(resumePath: String) -> URL {
         URL(string: host("https://identity.porsche.com") + resumePath)!
     }
-  
-  var callbackAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/login/callback")!
-  }
-
-  var vehiclesURL: URL {
-    URL(string: host("https://api.ppa.porsche.com/app") + "/connect/v1/vehicles")!
-  }
-
-  // MARK: - Functions
+    
+    var vehiclesURL: URL {
+        URL(string: host("https://api.ppa.porsche.com/app") + "/connect/v1/vehicles")!
+    }
+    
+    // MARK: - Functions
     
     func vehicle(vin: String, measurements: [VehicleMeasurement] = [], commands: [VehicleCommand] = []) -> URL {
         var components = URLComponents(url: vehiclesURL, resolvingAgainstBaseURL: false)!
@@ -56,12 +50,11 @@ struct NetworkRoutes {
         components.queryItems?.append(URLQueryItem(name: "wakeUpJob", value: UUID().uuidString))
         return components.url!
     }
-
-  func vehiclePicturesURL(vin: String) -> URL {
-    return URL(
-      string: "\(host("https://api.porsche.com"))/vehicles/v2/\(environment.countryCode)/\(vin)/pictures")!
-  }
-
+    
+    func vehiclePicturesURL(vin: String) -> URL {
+        URL(string: host("https://api.ppa.porsche.com/app") + "/connect/v1/vehicles/\(vin)/pictures")!
+    }
+    
   func vehiclePositionURL(vin: String) -> URL {
     return URL(
       string:
