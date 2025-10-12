@@ -46,7 +46,7 @@ final class SimpleAuthStorage: AuthStoring {
 
 // MARK: - Porsche Connect
 
-public class PorscheConnect {
+public class PorscheConnect: @unchecked Sendable {
 
   let environment: Environment
   let username: String
