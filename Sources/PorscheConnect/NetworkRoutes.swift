@@ -6,54 +6,55 @@ struct NetworkRoutes {
   let environment: Environment
 
   // MARK: - Calculated properties
-
-  var loginAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/authorize?response_type=code&client_id=\(OAuthApplication.api.clientId)&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid")!
-  }
-  
-  var resumeAuth0URL: URL { // this is only used in test environment
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/testing-second-authorize?response_type=code&client_id=\(OAuthApplication.api.clientId)&code_challenge_method=S256&redirect_uri=https://my.porsche.com&uri_locales=de-DE&audience=https://api.porsche.com&scope=openid")!
-  }
-  
-  var accessTokenAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/oauth/token")!
-  }
-  
-  var usernamePasswordLoginAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/usernamepassword/login")!
-  }
-  
-  var callbackAuth0URL: URL {
-    return URL(
-      string:
-        "\(host("https://identity.porsche.com"))/login/callback")!
-  }
-
-  var vehiclesURL: URL {
-    return URL(
-      string: "\(host("https://api.porsche.com"))/core/api/v3/\(environment.regionCode)/vehicles")!
-  }
-
-  // MARK: - Functions
-
-  func vehicleSummaryURL(vin: String) -> URL {
-    return URL(
-      string: "\(host("https://api.porsche.com"))/service-vehicle/vehicle-summary/\(vin)")!
-  }
-
-  func vehiclePicturesURL(vin: String) -> URL {
-    return URL(
-      string: "\(host("https://api.porsche.com"))/vehicles/v2/\(environment.countryCode)/\(vin)/pictures")!
-  }
-
+    
+    var loginAuth0URL: URL {
+        URL(string: host("https://identity.porsche.com") + "/authorize")!
+    }
+    
+    func resumeAuth0URL(resumePath: String) -> URL { // this is only used in test environment
+        URL(string: host("https://identity.porsche.com") + resumePath)!
+    }
+    
+    var accessTokenAuth0URL: URL {
+        URL(string: host("https://identity.porsche.com") + "/oauth/token")!
+    }
+    
+    func usernameLoginAuth0URL(state: String) -> URL {
+        URL(string: host("https://identity.porsche.com") + "/u/login/identifier?state=\(state)")!
+    }
+    
+    func passwordLoginAuth0URL(state: String) -> URL {
+        URL(string: host("https://identity.porsche.com") + "/u/login/password?state=\(state)")!
+    }
+    
+    func resumeLoginAuth0URL(resumePath: String) -> URL {
+        URL(string: host("https://identity.porsche.com") + resumePath)!
+    }
+    
+    var vehiclesURL: URL {
+        URL(string: host("https://api.ppa.porsche.com/app") + "/connect/v1/vehicles")!
+    }
+    
+    // MARK: - Functions
+    
+    func vehicle(vin: String, measurements: [VehicleMeasurement] = [], commands: [VehicleCommand] = []) -> URL {
+        var components = URLComponents(url: vehiclesURL, resolvingAgainstBaseURL: false)!
+        components.path += "/\(vin)"
+        components.queryItems = []
+        for measurement in measurements {
+            components.queryItems?.append(URLQueryItem(name: "mf", value: measurement.rawValue))
+        }
+        for command in commands {
+            components.queryItems?.append(URLQueryItem(name: "cf", value: command.rawValue))
+        }
+        components.queryItems?.append(URLQueryItem(name: "wakeUpJob", value: UUID().uuidString))
+        return components.url!
+    }
+    
+    func vehiclePicturesURL(vin: String) -> URL {
+        URL(string: host("https://api.ppa.porsche.com/app") + "/connect/v1/vehicles/\(vin)/pictures")!
+    }
+    
   func vehiclePositionURL(vin: String) -> URL {
     return URL(
       string:

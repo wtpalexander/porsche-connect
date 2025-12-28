@@ -1,0 +1,50 @@
+//
+//  VehicleCommand.swift
+//  PorscheConnect
+//
+//  Created by William Alexander on 07/01/2025.
+//
+
+enum VehicleCommand: String, CaseIterable {
+    case bleidAgreementGive = "BLEID_AGREEMENT_GIVE"
+    case bleidAgreementRevoke = "BLEID_AGREEMENT_REVOKE"
+    case bleidDeviceKeyUpload = "BLEID_DEVICEKEY_UPLOAD"
+    case bCallTrigger = "B_CALL_TRIGGER"
+    case chargingProfilesEdit = "CHARGING_PROFILES_EDIT"
+    case chargingSettingsAutoplugEdit = "CHARGING_SETTINGS_AUTOPLUG_EDIT"
+    case chargingSettingsBatteryCareModeEdit = "CHARGING_SETTINGS_BATTERYCAREMODE_EDIT"
+    case chargingSettingsCertificatesReset = "CHARGING_SETTINGS_CERTIFICATES_RESET"
+    case chargingSettingsEdit = "CHARGING_SETTINGS_EDIT"
+    case chargingStop = "CHARGING_STOP"
+    case csAccountFederation = "CS_ACCOUNT_FEDERATION"
+    case csAppShopEnable = "CS_APP_SHOP_ENABLE"
+    case csAppShopUpload = "CS_APP_SHOP_UPLOAD"
+    case csC2pInVehicleInfotainment = "CS_C2P_IN_VEHICLE_INFOTAINMENT"
+    case csDestinationSync = "CS_DESTINATION_SYNC"
+    case csPcmAccountServices = "CS_PCM_ACCOUNT_SERVICES"
+    case csPcmCalendar = "CS_PCM_CALENDAR"
+    case csPilotedParking = "CS_PILOTED_PARKING"
+    case csVoiceMimic = "CS_VOICE_MIMIC"
+    case csYounited = "CS_YOUNITED"
+    case csVideoStreamingVoucher = "CS_VIDEOSTREAMING_VOUCHER"
+    case departuresEdit = "DEPARTURES_EDIT"
+    case directChargingStart = "DIRECT_CHARGING_START"
+    case directChargingStop = "DIRECT_CHARGING_STOP"
+    case honkFlash = "HONK_FLASH"
+    case lock = "LOCK"
+    case predPreconLocationExceptionEdit = "PRED_PRECON_LOCATION_EXCEPTION_EDIT"
+    case predPreconUserSettingsEdit = "PRED_PRECON_USER_SETTINGS_EDIT"
+    case remoteAcvStart = "REMOTE_ACV_START"
+    case remoteAcvStop = "REMOTE_ACV_STOP"
+    case remoteClimatizerStart = "REMOTE_CLIMATIZER_START"
+    case remoteClimatizerStop = "REMOTE_CLIMATIZER_STOP"
+    case remoteHeatingStart = "REMOTE_HEATING_START"
+    case remoteHeatingStop = "REMOTE_HEATING_STOP"
+    case routeCalculate = "ROUTE_CALCULATE"
+    case servicePredictionsVisibilityEdit = "SERVICE_PREDICTIONS_VISIBILITY_EDIT"
+    case spinChallenge = "SPIN_CHALLENGE"
+    case spinValidation = "SPIN_VALIDATION"
+    case timersDisable = "TIMERS_DISABLE"
+    case timersEdit = "TIMERS_EDIT"
+    case unlock = "UNLOCK"
+}

@@ -1,52 +1,86 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Ambassador",
-        "repositoryURL": "https://github.com/envoy/Ambassador.git",
-        "state": {
-          "branch": null,
-          "revision": "447cf56f692999153bd261b1775ea4a58f7f7be9",
-          "version": "4.0.5"
-        }
-      },
-      {
-        "package": "Embassy",
-        "repositoryURL": "https://github.com/envoy/Embassy.git",
-        "state": {
-          "branch": null,
-          "revision": "8469f2c1b334a7c1c3566e2cb2f97826c7cca898",
-          "version": "4.1.6"
-        }
-      },
-      {
-        "package": "swift-argument-parser",
-        "repositoryURL": "https://github.com/apple/swift-argument-parser",
-        "state": {
-          "branch": null,
-          "revision": "fee6933f37fde9a5e12a1e4aeaa93fe60116ff2a",
-          "version": "1.2.2"
-        }
-      },
-      {
-        "package": "SwiftSoup",
-        "repositoryURL": "https://github.com/scinfu/SwiftSoup.git",
-        "state": {
-          "branch": null,
-          "revision": "8b6cf29eead8841a1fa7822481cb3af4ddaadba6",
-          "version": "2.6.1"
-        }
-      },
-      {
-        "package": "XCTAsync",
-        "repositoryURL": "https://github.com/mochidev/XCTAsync.git",
-        "state": {
-          "branch": null,
-          "revision": "4d4be0947d74feb387fb7af8ef53f69e78232a7b",
-          "version": "1.0.1"
-        }
+  "pins" : [
+    {
+      "identity" : "ambassador",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/envoy/Ambassador.git",
+      "state" : {
+        "revision" : "447cf56f692999153bd261b1775ea4a58f7f7be9",
+        "version" : "4.0.5"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "cocoalumberjack",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CocoaLumberjack/CocoaLumberjack.git",
+      "state" : {
+        "revision" : "4b8714a7fb84d42393314ce897127b3939885ec3",
+        "version" : "3.8.5"
+      }
+    },
+    {
+      "identity" : "embassy",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/envoy/Embassy.git",
+      "state" : {
+        "revision" : "8469f2c1b334a7c1c3566e2cb2f97826c7cca898",
+        "version" : "4.1.6"
+      }
+    },
+    {
+      "identity" : "jwtdecode.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/auth0/JWTDecode.swift",
+      "state" : {
+        "revision" : "1e153ef009969543191970c66b7c60163c0b4a65",
+        "version" : "3.2.0"
+      }
+    },
+    {
+      "identity" : "svgkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SVGKit/SVGKit",
+      "state" : {
+        "revision" : "58152b9f7c85eab239160b36ffdfd364aa43d666",
+        "version" : "3.0.0"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "fee6933f37fde9a5e12a1e4aeaa93fe60116ff2a",
+        "version" : "1.2.2"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log",
+      "state" : {
+        "revision" : "96a2f8a0fa41e9e09af4585e2724c4e825410b91",
+        "version" : "1.6.2"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "8b6cf29eead8841a1fa7822481cb3af4ddaadba6",
+        "version" : "2.6.1"
+      }
+    },
+    {
+      "identity" : "xctasync",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mochidev/XCTAsync.git",
+      "state" : {
+        "revision" : "4d4be0947d74feb387fb7af8ef53f69e78232a7b",
+        "version" : "1.0.1"
+      }
+    }
+  ],
+  "version" : 2
 }
