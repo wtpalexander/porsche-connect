@@ -57,21 +57,20 @@ extension Porsche {
     }
 
     private func printTirePressures(_ tires: Tires) {
-      let formatter = PressureFormatter()
-
       print(NSLocalizedString("\nTire Pressures:", comment: kBlankString))
-      print(NSLocalizedString(
-        "  Front Left:  Current: \(formatter.string(from: tires.frontLeft.currentPressure)), Optimal: \(formatter.string(from: tires.frontLeft.optimalPressure))",
-        comment: kBlankString))
-      print(NSLocalizedString(
-        "  Front Right: Current: \(formatter.string(from: tires.frontRight.currentPressure)), Optimal: \(formatter.string(from: tires.frontRight.optimalPressure))",
-        comment: kBlankString))
-      print(NSLocalizedString(
-        "  Rear Left:   Current: \(formatter.string(from: tires.backLeft.currentPressure)), Optimal: \(formatter.string(from: tires.backLeft.optimalPressure))",
-        comment: kBlankString))
-      print(NSLocalizedString(
-        "  Rear Right:  Current: \(formatter.string(from: tires.backRight.currentPressure)), Optimal: \(formatter.string(from: tires.backRight.optimalPressure))",
-        comment: kBlankString))
+
+      func formatTire(_ tire: Tire, label: String) {
+        let optimal = tire.actualPressureBar - tire.differenceBar
+        let difference = tire.differenceBar >= 0 ? "+\(tire.differenceBar)" : "\(tire.differenceBar)"
+        print(NSLocalizedString(
+          "  \(label): \(String(format: "%.1f", tire.actualPressureBar)) bar (optimal: \(String(format: "%.1f", optimal)) bar, \(difference))",
+          comment: kBlankString))
+      }
+
+      formatTire(tires.frontLeftTire, label: "Front Left ")
+      formatTire(tires.frontRightTire, label: "Front Right")
+      formatTire(tires.rearLeftTire, label: "Rear Left  ")
+      formatTire(tires.rearRightTire, label: "Rear Right ")
     }
   }
 }
