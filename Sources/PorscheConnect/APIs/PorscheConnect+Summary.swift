@@ -70,14 +70,19 @@ public extension Summary {
             init(from decoder: any Decoder) throws {
                 let container = try decoder.container(keyedBy: CodingKeys.self)
                 let key = try container.decode(String.self, forKey: .key)
-                
+
                 switch key {
                 case VehicleMeasurement.mileage.rawValue:
                     let mileage = try container.decode(Mileage.self, forKey: .value)
                     self = .mileage(mileage)
                 case VehicleMeasurement.tirePressure.rawValue:
-                    let tires = try container.decode(Tires.self, forKey: .value)
-                    self = .tirePressure(tires)
+                    // Only decode if value exists (it won't exist if status.isEnabled = false)
+                    if container.contains(.value) {
+                        let tires = try container.decode(Tires.self, forKey: .value)
+                        self = .tirePressure(tires)
+                    } else {
+                        self = .unknown
+                    }
                 default: self = .unknown
                 }
             }
