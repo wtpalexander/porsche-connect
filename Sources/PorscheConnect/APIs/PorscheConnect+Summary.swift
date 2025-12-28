@@ -40,6 +40,7 @@ public extension Summary {
     
     struct Measurements: Decodable {
         public let mileage: Mileage
+        public let tirePressure: Tires?
         
         public init(from decoder: any Decoder) throws {
             var container = try decoder.singleValueContainer()
@@ -54,10 +55,16 @@ public extension Summary {
                 ))
             }
             self.mileage = mileage
+
+            // Extract tire pressure (optional, not all vehicles have TPMS)
+            self.tirePressure = measurements.compactMap({
+                if case let .tirePressure(tires) = $0 { return tires } else { return nil }
+            }).first
         }
         
         enum Measurement: Decodable {
             case mileage(Mileage)
+            case tirePressure(Tires)
             case unknown
             
             init(from decoder: any Decoder) throws {
@@ -68,6 +75,9 @@ public extension Summary {
                 case VehicleMeasurement.mileage.rawValue:
                     let mileage = try container.decode(Mileage.self, forKey: .value)
                     self = .mileage(mileage)
+                case VehicleMeasurement.tirePressure.rawValue:
+                    let tires = try container.decode(Tires.self, forKey: .value)
+                    self = .tirePressure(tires)
                 default: self = .unknown
                 }
             }
